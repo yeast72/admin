@@ -13,11 +13,13 @@ routes.get("/", (req, res) => {
 });
 
 routes.use((req, res, next) => {
-  return res.status(404).send({ message: "Route" + req.url + " Not found." });
+  return res.status(404).json({ message: "Route" + req.url + " Not found." });
 });
 
-routes.use((err, req, res, next) => {
-  return res.status(500).send({ error: err });
+routes.use((error, req, res, next) => {
+  const status = error.statusCode || 500;
+  const message = error.message;
+  return res.status(status).json({ message: message });
 });
 
 module.exports = routes;

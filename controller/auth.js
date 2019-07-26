@@ -1,8 +1,7 @@
 const passport = require("passport");
-const User = require("../model/user");
+const User = require("../database").users;
 
 exports.login = (req, res, next) => {
-  //   res.status(200).json({ message: "eiei" });
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       return next(err);
@@ -16,7 +15,7 @@ exports.login = (req, res, next) => {
         return next(err);
       }
       return res
-        .status(201)
+        .status(200)
         .json({ message: "successful login", user: user.username });
     });
   })(req, res, next);
@@ -24,5 +23,19 @@ exports.login = (req, res, next) => {
 
 exports.logout = (req, res, next) => {
   req.logout();
-  res.status(201).json({ message: "Logout success" });
+  res.status(204).json({ message: "Logout success" });
+};
+
+exports.signup = async (req, res, next) => {
+  const { username, id, password, role } = req.body.user;
+  try {
+    const user = await User.create({
+      username: username,
+      password: password,
+      role: role
+    });
+    res.status(201).json({ message: "Create user successful", user: user });
+  } catch (err) {
+    next(err);
+  }
 };

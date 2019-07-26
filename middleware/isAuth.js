@@ -3,6 +3,6 @@ module.exports = {
     if (req.isAuthenticated()) {
       return next();
     }
-    res.status(401).json({ message: "login first" });
+    res.status(401).json({ message: "Unauthorized" });
   }
 };

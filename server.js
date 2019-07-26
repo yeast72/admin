@@ -8,7 +8,7 @@ const passport = require("passport");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const sequelize = require("./database");
+const db = require("./database");
 const routes = require("./routes");
 
 const port = process.env.PORT || 3000;
@@ -33,33 +33,18 @@ app.use(express.static(path.join(__dirname, "client", "build")));
 
 app.use("/api", routes);
 
-app.use(function(req, res, next) {
-  if (!req.routes) return next(new Error("404"));
-  next();
-});
-
-app.use((error, req, res, next) => {
-  console.log(error);
-  const status = error.statusCode || 500;
-  const message = error.message;
-  res.status(status).json({
-    message: message
-  });
-});
-
 app.get("/*", function(req, res) {
   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection has been established successfully.");
-  })
-  .catch(err => {
-    console.error("Unable to connect to the database:", err);
+db.sequelize.sync({ force: false }).then(() => {
+  app.listen(port, () => {
+    console.log("Listening on ", port);
   });
-
-app.listen(port, () => {
-  console.log("Listening on ", port);
 });
+
+// db.users.create({
+//   username: "admin",
+//   password: "admin",
+//   role: "admin"
+// });

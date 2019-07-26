@@ -1,44 +1,39 @@
 const Sequelize = require("sequelize");
-const sequelize = require("../database");
-
 const Model = Sequelize.Model;
+("use strict");
 
-class User extends Model {
-  validPassword(password) {
-    return this.password.toString() === password.toString();
+module.exports = (sequelize, DataType) => {
+  class Users extends Model {
+    validPassword(password) {
+      return this.password.toString() === password.toString();
+    }
   }
-}
-User.init(
-  {
-    username: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: "Please enter your name"
-        }
+  Users.init(
+    {
+      id: {
+        type: DataType.UUID,
+        primaryKey: true,
+        defaultValue: DataType.UUIDV4,
+        allowNull: false
+      },
+      username: {
+        type: DataType.STRING,
+        require: true
+      },
+      password: {
+        type: DataType.STRING,
+        require: true
+      },
+      role: {
+        type: DataType.ENUM,
+        values: ["user", "admin"]
       }
     },
-    password: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: "Please enter your password"
-        }
-      }
-    },
-    isAdmin: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false }
-  },
-  { sequelize, modelName: "user" }
-);
-
-User.sync({ force: true }).then(() => {
-  return User.create({
-    username: "admin",
-    password: "admin",
-    isAdmin: true
-  });
-});
-
-module.exports = User;
+    {
+      sequelize,
+      modelName: "users",
+      underscored: true
+    }
+  );
+  return Users;
+};

@@ -1,15 +1,39 @@
-const Model = require("sequelize").Model;
-const sequelize = require("../database");
+const Sequelize = require("sequelize");
+const Model = Sequelize.Model;
+("use strict");
 
-class Product extends Model {}
-Product.init(
-  {
-    title: Sequelize.STRING,
-    description: Sequelize.STRING,
-    imageURL: Sequelize.STRING,
-    price: Sequelize.DOUBLE
-  },
-  { sequelize, modelName: "product" }
-);
-
-module.exports = Product;
+module.exports = (sequelize, DataTypes) => {
+  class Products extends Model {}
+  Products.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false
+      },
+      title: {
+        type: DataTypes.STRING,
+        require: true
+      },
+      description: {
+        type: DataTypes.STRING,
+        require: true
+      },
+      imageUrl: {
+        type: DataTypes.STRING,
+        require: true
+      },
+      price: {
+        type: DataTypes.DOUBLE,
+        require: true
+      }
+    },
+    {
+      modelName: "products",
+      sequelize,
+      underscored: true
+    }
+  );
+  return Products;
+};

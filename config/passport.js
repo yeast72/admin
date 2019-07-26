@@ -2,7 +2,7 @@ const sequlize = require("../database");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
-const User = require("../model/user");
+const User = require("../database").users;
 
 module.exports = passport => {
   passport.use(
