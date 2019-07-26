@@ -31,6 +31,16 @@ app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, "client", "build")));
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "POST, DELETE, OPTIONS, GET, PUT, PATCH"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
+
 app.use("/api", routes);
 
 app.get("/*", function(req, res) {
