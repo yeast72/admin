@@ -1,11 +1,12 @@
 const Sequelize = require("sequelize");
+const bcrypt = require("bcrypt");
 const Model = Sequelize.Model;
 ("use strict");
 
 module.exports = (sequelize, DataType) => {
   class Users extends Model {
-    validPassword(password) {
-      return this.password.toString() === password.toString();
+    async validPassword(password) {
+      return await bcrypt.compare(password, this.password);
     }
   }
   Users.init(
