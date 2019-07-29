@@ -1,5 +1,6 @@
 const express = require("express");
 const favicon = require("express-favicon");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
 const session = require("express-session");
@@ -14,7 +15,8 @@ const port = process.env.PORT || 3000;
 
 const app = express();
 
-require("./middleware/isAuth");
+app.use(cors());
+
 app.use(express.static(__dirname));
 app.use(favicon(__dirname + "/client/build/favicon.ico"));
 // the __dirname is the current directory from where the script is running
@@ -25,16 +27,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({ secret: "keyboard cat", cookie: {} }));
 
 app.use(express.static(path.join(__dirname, "client", "build")));
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "POST, DELETE, OPTIONS, GET, PUT, PATCH"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
 
 app.use("/api", routes);
 

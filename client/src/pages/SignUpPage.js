@@ -15,11 +15,11 @@ const Form = styled.form`
   margin-top: 10px;
 `;
 
-class LoginPage extends Component {
+class SignUpPage extends Component {
   render() {
     return (
       <PaperStyled>
-        <Typography variant="h5">Sign in</Typography>
+        <Typography variant="h5">Sign up</Typography>
         <Form>
           <TextField
             variant="outlined"
@@ -43,13 +43,23 @@ class LoginPage extends Component {
             id="password"
             autoComplete="current-password"
           />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            requried
+            fullWidth
+            name="confirm-password"
+            label="Confirm Password"
+            type="password"
+            id="confirm-password"
+            autoComplete="confirm-password"
+          />
           <Button variant="contained" color="primary">
-            Login
+            Sign Up
           </Button>
         </Form>
       </PaperStyled>
     );
   }
 }
-
-export default LoginPage;
+export default SignUpPage;

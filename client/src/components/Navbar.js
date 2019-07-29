@@ -22,8 +22,32 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Navbar = () => {
+const Navbar = ({ auth }) => {
   const classes = useStyles();
+  console.log(auth);
+
+  const renderLogout = (
+    <Button className={classes.button} color="inherit">
+      <Link className={classes.link} to="/signup">
+        Logout
+      </Link>
+    </Button>
+  );
+
+  const renderLogin = (
+    <>
+      <Button className={classes.button} color="inherit">
+        <Link className={classes.link} to="/login">
+          Login
+        </Link>
+      </Button>
+      <Button className={classes.button} color="inherit">
+        <Link className={classes.link} to="/signup">
+          Signup
+        </Link>
+      </Button>
+    </>
+  );
   return (
     <AppBar className={classes.root} position="static">
       <Toolbar>
@@ -35,11 +59,7 @@ const Navbar = () => {
             Admin
           </Link>
         </Button>
-        <Button className={classes.button} color="inherit">
-          <Link className={classes.link} to="/login">
-            Login
-          </Link>
-        </Button>
+        {auth.loggedIn ? renderLogout : renderLogin}
       </Toolbar>
     </AppBar>
   );

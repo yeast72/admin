@@ -5,8 +5,12 @@ const userController = require("../controller/user");
 
 const isAuth = require("../middleware/isAuth");
 
-router.get("/", userController.getUsers);
+router.get("/me", isAuth, userController.getCurrentUser);
 
-router.get("/current", isAuth, userController.getCurrentUser);
+router.post("/login", userController.login);
+
+router.post("/signup", userController.signup);
+
+router.get("/logout", userController.logout);
 
 module.exports = router;

@@ -2,9 +2,7 @@ const routes = require("express").Router();
 
 const product = require("./product");
 const user = require("./user");
-const auth = require("./auth");
 
-routes.use(auth);
 routes.use("/products", product);
 routes.use("/users", user);
 

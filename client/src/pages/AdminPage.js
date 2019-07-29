@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
-export default class AdminPage extends Component {
+class AdminPage extends Component {
   render() {
+    const { products } = this.props;
     return (
       <div>
         <h1>Admin Page</h1>
@@ -9,3 +11,9 @@ export default class AdminPage extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return { products: state.products.byId };
+};
+
+export default connect(mapStateToProps)(AdminPage);
